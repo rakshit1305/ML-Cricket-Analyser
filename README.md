@@ -41,12 +41,12 @@ City
 
 **🧠 3. Machine Learning Workflow**
 **✔ Data Cleaning**
-Missing value handling
-Type conversions
+1.Missing value handling
+2.Type conversions
 
 **✔ Feature Engineering**
-One-Hot Encoding for categorical columns
-Scaling numeric columns
+1.One-Hot Encoding for categorical columns
+2.Scaling numeric columns
 
 ✔ Algorithm Testing
 
