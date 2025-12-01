@@ -1,9 +1,9 @@
-📌 Cricket Score Predictor – Machine Learning Project
+**📌 Cricket Score Predictor – Machine Learning Project**
 
 This project predicts the final score of a cricket innings using machine learning.
 It is built using Python, Scikit-Learn, XGBoost, and Streamlit for deployment.
 
-📁 Project Structure
+📁**Project Structure**
 ML_project/
 │── ML.ipynb                # Jupyter Notebook with all training code
 │── cricket_pipeline.pkl    # Saved final ML pipeline
@@ -11,78 +11,71 @@ ML_project/
 │── README.md               # Project documentation
 │── data/                   # Dataset (CSV)
 
-📌 1. Project Overview
+**📌 1. Project Overview**
 
 The goal of this project is to build a regression model that predicts final runs scored based on match conditions such as:
 
 Batting team
-
 Bowling team
-
 Current score
-
 Balls bowled
-
 Wickets left
-
 Runs in last 3 overs
-
 Current run rate
-
 City
 
-📊 2. Dataset Description
-Feature	Description
-batting_team	Team currently batting
-bowling_team	Team bowling
-current_score	Score at prediction moment
-balls_bowled	Total balls bowled so far
-wickets_left	Wickets remaining
-runs_last_3_overs	Form indicator
-crr	Current Run Rate
-city	Match location
-final_score	Target variable
-🧠 3. Machine Learning Workflow
-✔ Data Cleaning
 
+**📊 2. Dataset Description**
+| Feature           | Description                |
+| ----------------- | -------------------------- |
+| batting_team      | Team currently batting     |
+| bowling_team      | Team bowling               |
+| current_score     | Score at prediction moment |
+| balls_bowled      | Total balls bowled so far  |
+| wickets_left      | Wickets remaining          |
+| runs_last_3_overs | Form indicator             |
+| crr               | Current Run Rate           |
+| city              | Match location             |
+| final_score       | Target variable            |
+
+**🧠 3. Machine Learning Workflow**
+**✔ Data Cleaning**
 Missing value handling
-
 Type conversions
 
-✔ Feature Engineering
-
+**✔ Feature Engineering**
 One-Hot Encoding for categorical columns
-
 Scaling numeric columns
 
 ✔ Algorithm Testing
 
-Models tested:
+**Models tested:**
 
-Model	Status
+**Model	Status**
 Linear Regression	❌ High error
 Decision Tree	❌ Overfitting
 Random Forest	✔ Good
 AdaBoost	✔ Moderate
 XGBoost	✔ Strong
 Voting Regressor	⭐⭐ Best Model
-🏆 4. Best Model: VOTING REGRESSOR
+
+**🏆 4. Best Model: VOTING REGRESSOR**
 
 The final model is an ensemble of three strong regressors:
-
-RandomForest + AdaBoost + XGBoost
+**RandomForest + AdaBoost + XGBoost**
 
 
 📌 Voting Regressor gave the lowest error and best generalization, making it the final choice.
 
-🧪 5. Final Machine Learning Pipeline
+
+**🧪 5. Final Machine Learning Pipeline**
 
 The final pipeline includes:
 
 SimpleImputer → handle missing numeric values
-
 StandardScaler → scale numeric features
-
 OneHotEncoder → convert teams/city to vectors
-
 VotingRegressor → final model
+
+
+
