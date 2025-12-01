@@ -52,12 +52,15 @@ Scaling numeric columns
 **Models tested:**
 
 **Model	Status**
-Linear Regression	❌ High error
-Decision Tree	❌ Overfitting
-Random Forest	✔ Good
-AdaBoost	✔ Moderate
-XGBoost	✔ Strong
-Voting Regressor	⭐⭐ Best Model
+| Model                | Status            |
+| -------------------- | ----------------- |
+| Linear Regression    | ❌ High error      |
+| Decision Tree        | ❌ Overfitting     |
+| Random Forest        | ✔ Good            |
+| AdaBoost             | ✔ Moderate        |
+| XGBoost              | ✔ Strong          |
+| **Voting Regressor** | **⭐⭐ Best Model** |
+
 
 **🏆 4. Best Model: VOTING REGRESSOR**
 
