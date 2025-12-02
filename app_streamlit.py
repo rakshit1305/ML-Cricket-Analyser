@@ -1,83 +1,77 @@
 import streamlit as st
+import pandas as pd
+import joblib
+import matplotlib.pyplot as plt
 from PIL import Image
 
-# -----------------------------
-# CUSTOM CRICKET THEME STYLING
-# -----------------------------
-page_bg = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://wallpapers.com/images/hd/cricket-stadium-4k-abstract-io9w4r2l2qslm4ke.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
+# ===== Load trained ML pipeline =====
+pipeline = joblib.load("cricket_pipeline.pkl")
 
-[data-testid="stHeader"] {
-    background: rgba(0,0,0,0);
-}
+# ===== Page setup =====
+st.set_page_config(page_title="Advanced Cricket Predictor", page_icon="🏏")
+st.title("🏏 Advanced Cricket Score Predictor")
+st.markdown("Predict the final score of an innings with interactive visuals and team logos.")
 
-.custom-box {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-}
+# ===== Teams and cities =====
+teams = ["Sri Lanka", "India", "Pakistan", "Australia"]
+cities = ["Lahore", "Dubai", "Mumbai", "Karachi"]
 
-.title-text {
-    font-size: 40px;
-    font-weight: 700;
-    text-align: center;
-    color: white;
-    text-shadow: 3px 3px 6px black;
-}
-</style>
-"""
+# ===== Team Logos =====
+logo_path = "logos/"
 
-st.markdown(page_bg, unsafe_allow_html=True)
-# Define the team list before using it
-team_list = ["Australia","India","Pakistan","England","Sri Lanka","Bangladesh",
-             "South Africa","New Zealand","Afghanistan","West Indies"]
+# ===== User Inputs =====
+batting_team = st.selectbox("Batting Team", teams)
+bowling_team = st.selectbox("Bowling Team", teams)
 
-city_list = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Bangalore", 
-             "Lahore", "Karachi", "Sydney", "Auckland", "Colombo"]
+# Show team logos
+col1, col2 = st.columns(2)
+with col1:
+    st.image(Image.open(f"{logo_path}{batting_team}.png"), width=100, caption=f"{batting_team}")
+with col2:
+    st.image(Image.open(f"{logo_path}{bowling_team}.png"), width=100, caption=f"{bowling_team}")
 
-# Now use in selectbox
-batting_team = st.selectbox("Batting Team", team_list)
-bowling_team = st.selectbox("Bowling Team", team_list)
-city = st.selectbox("City", city_list)
+current_score = st.slider("Current Score", 0, 400, 100, help="Score at current moment")
+balls_bowled = st.slider("Balls Bowled", 0, 120, 60, help="Total balls bowled so far")
+wickets_left = st.slider("Wickets Left", 0, 10, 5, help="Wickets remaining")
+runs_last_3_overs = st.slider("Runs in Last 3 Overs", 0, 60, 20)
+crr = st.number_input("Current Run Rate (CRR)", min_value=0.0, value=6.5, step=0.01)
+city = st.selectbox("City", cities)
 
-# Cricket Logo (place any image URL or file path)
-st.image("https://1000logos.net/wp-content/uploads/2022/09/Cricket-League-Logo.png", width=140)
-
-st.markdown('<p class="title-text">Cricket Score Prediction App</p>', unsafe_allow_html=True)
-with st.container():
-    st.markdown('<div class="custom-box">', unsafe_allow_html=True)
-
-    batting_team = st.selectbox("Batting Team", team_list)
-    bowling_team = st.selectbox("Bowling Team", team_list)
-    city = st.selectbox("City", city_list)
-
-    current_score = st.number_input("Current Score")
-    balls_bowled = st.number_input("Balls Bowled")
-    wickets_left = st.number_input("Wickets Left")
-    runs_last_3 = st.number_input("Runs in Last 3 Overs")
-    crr = st.number_input("Current Run Rate")
-
-    if st.button("Predict Final Score"):
-        input_df = pd.DataFrame([{
-            "batting_team": batting_team,
-            "bowling_team": bowling_team,
-            "city": city,
-            "current_score": current_score,
-            "balls_bowled": balls_bowled,
-            "wickets_left": wickets_left,
-            "runs_last_3_overs": runs_last_3,
-            "crr": crr
-        }])
-
-        result = model.predict(input_df)[0]
-        st.success(f"Predicted Final Score: {int(result)}")
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
+# ===== Predict Button =====
+if st.button("Predict Final Score"):
+    # Prepare input
+    df = pd.DataFrame([{
+        'batting_team': batting_team,
+        'bowling_team': bowling_team,
+        'current_score': int(current_score),
+        'balls_bowled': int(balls_bowled),
+        'wickets_left': int(wickets_left),
+        'runs_last_3_overs': int(runs_last_3_overs),
+        'crr': float(crr),
+        'city': city
+    }])
+    
+    # Predict final runs
+    predicted_runs = int(round(pipeline.predict(df)[0]))
+    
+    # Show result with suggestion
+    if predicted_runs > 250:
+        st.success(f"🏏 Predicted Final Runs: {predicted_runs} – High Scoring Match!")
+    elif predicted_runs < 150:
+        st.warning(f"🏏 Predicted Final Runs: {predicted_runs} – Low Scoring Match!")
+    else:
+        st.info(f"🏏 Predicted Final Runs: {predicted_runs} – Average Scoring Match")
+    
+    # ===== Projected Score Over Each 5 Over Segment =====
+    segments = 6  # divide remaining overs into 6 segments
+    projected_scores = [current_score + i*(predicted_runs-current_score)//segments for i in range(segments+1)]
+    plt.figure(figsize=(8,4))
+    plt.plot(range(len(projected_scores)), projected_scores, marker='o', color='orange')
+    plt.title("Projected Score Progression")
+    plt.xlabel("Over Segments")
+    plt.ylabel("Runs")
+    plt.grid(True)
+    st.pyplot(plt)
+    
+    # ===== Bar Chart Comparison =====
+    st.bar_chart({"Current Score": [current_score], "Predicted Final Score": [predicted_runs]})
