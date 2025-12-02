@@ -1,81 +1,71 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import pickle
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.ensemble import VotingRegressor
+from PIL import Image
 
------------------------------
-LOAD PIPELINE OR MODELS
------------------------------
-Assuming you have your trained Voting Regressor saved as 'voting_reg.pkl'
-And encoders/scalers saved as 'batting_team_encoder.pkl', etc.
-
-voting_reg = pickle.load(open("voting_reg.pkl", "rb"))
-batting_team_encoder = pickle.load(open("batting_team_encoder.pkl", "rb"))
-bowling_team_encoder = pickle.load(open("bowling_team_encoder.pkl", "rb"))
-city_encoder = pickle.load(open("city_encoder.pkl", "rb"))
-scaler = pickle.load(open("scaler.pkl", "rb"))
-
------------------------------
-CUSTOM CRICKET THEME STYLING
------------------------------
-
+# -----------------------------
+# CUSTOM CRICKET THEME STYLING
+# -----------------------------
 page_bg = """
+<style>
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://wallpapers.com/images/hd/cricket-stadium-4k-abstract-io9w4r2l2qslm4ke.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 
+[data-testid="stHeader"] {
+    background: rgba(0,0,0,0);
+}
+
+.custom-box {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+.title-text {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    text-shadow: 3px 3px 6px black;
+}
+</style>
 """
+
 st.markdown(page_bg, unsafe_allow_html=True)
+# Cricket Logo (place any image URL or file path)
+st.image("https://1000logos.net/wp-content/uploads/2022/09/Cricket-League-Logo.png", width=140)
 
-st.title("🏏 Cricket Match Runs Prediction")
+st.markdown('<p class="title-text">Cricket Score Prediction App</p>', unsafe_allow_html=True)
+with st.container():
+    st.markdown('<div class="custom-box">', unsafe_allow_html=True)
 
------------------------------
-USER INPUTS
------------------------------
+    batting_team = st.selectbox("Batting Team", team_list)
+    bowling_team = st.selectbox("Bowling Team", team_list)
+    city = st.selectbox("City", city_list)
 
-st.header("Enter Match Details")
+    current_score = st.number_input("Current Score")
+    balls_bowled = st.number_input("Balls Bowled")
+    wickets_left = st.number_input("Wickets Left")
+    runs_last_3 = st.number_input("Runs in Last 3 Overs")
+    crr = st.number_input("Current Run Rate")
 
-batting_team = st.selectbox("Batting Team",
-["Australia","India","Pakistan","England","Sri Lanka","Bangladesh","South Africa","New Zealand","Afghanistan","West Indies"])
-bowling_team = st.selectbox("Bowling Team",
-["Australia","India","Pakistan","England","Sri Lanka","Bangladesh","South Africa","New Zealand","Afghanistan","West Indies"])
-city = st.selectbox("City", ["Mumbai", "Delhi", "Chennai", "Kolkata", "Bangalore", "Lahore", "Karachi", "Sydney", "Auckland", "Colombo"])
+    if st.button("Predict Final Score"):
+        input_df = pd.DataFrame([{
+            "batting_team": batting_team,
+            "bowling_team": bowling_team,
+            "city": city,
+            "current_score": current_score,
+            "balls_bowled": balls_bowled,
+            "wickets_left": wickets_left,
+            "runs_last_3_overs": runs_last_3,
+            "crr": crr
+        }])
 
-current_score = st.number_input("Current Score", min_value=0, max_value=500, value=100)
-balls_bowled = st.number_input("Balls Bowled", min_value=0, max_value=120, value=60)
-wickets_left = st.number_input("Wickets Left", min_value=0, max_value=10, value=5)
-runs_last_3_overs = st.number_input("Runs in Last 3 Overs", min_value=0, max_value=60, value=20)
+        result = model.predict(input_df)[0]
+        st.success(f"Predicted Final Score: {int(result)}")
 
-Calculate CRR
+    st.markdown('</div>', unsafe_allow_html=True)
 
-crr = (current_score / (balls_bowled / 6)) if balls_bowled != 0 else 0
-
------------------------------
-PREDICTION
------------------------------
-
-if st.button("Predict Final Score"):
-
-# Encode categorical variables
-batting_encoded = batting_team_encoder.transform([batting_team])[0]
-bowling_encoded = bowling_team_encoder.transform([bowling_team])[0]
-city_encoded = city_encoder.transform([city])[0]
-
-# Prepare DataFrame
-X_new = pd.DataFrame([{
-    'batting_team': batting_encoded,
-    'bowling_team': bowling_encoded,
-    'current_score': current_score,
-    'balls_bowled': balls_bowled,
-    'wickets_left': wickets_left,
-    'runs_last_3_overs': runs_last_3_overs,
-    'crr': crr,
-    'city': city_encoded
-}])
-
-# Scale numeric features (if your pipeline requires)
-numeric_features = ['current_score', 'balls_bowled', 'wickets_left', 'runs_last_3_overs', 'crr']
-X_new[numeric_features] = scaler.transform(X_new[numeric_features])
-
-# Predict
-predicted_runs = voting_reg.predict(X_new)[0]
-st.success(f"🏏 Predicted Final Score: {predicted_runs:.2f} runs")
