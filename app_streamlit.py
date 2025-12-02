@@ -2,14 +2,17 @@ import streamlit as st
 import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
-# Cricket Logo (place any image URL or file path)
-st.image("https://1000logos.net/wp-content/uploads/2022/09/Cricket-League-Logo.png", width=140)
 
 # Load the trained ML pipeline
 pipeline = joblib.load("cricket_pipeline.pkl")
 
 st.set_page_config(page_title="Cricket Score Predictor", page_icon="🏏")
 st.title("🏏 Cricket Score Predictor")
+# Cricket Logo (place any image URL or file path)
+st.image("https://1000logos.net/wp-content/uploads/2022/09/Cricket-League-Logo.png", width=140)
+
+st.markdown('<p class="title-text">Cricket Score Prediction App</p>', unsafe_allow_html=True)
+
 st.markdown("Predict the final score of an innings based on current match situation.")
 
 # Teams and cities
