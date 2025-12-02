@@ -39,6 +39,9 @@ City
 | city              | Match location             |
 | final_score       | Target variable            |
 
+https://www.kaggle.com/veeralakrishna/cricsheet-a-retrosheet-for-cricket?select=t20s
+Link to access datasets taken for this project.
+
 **🧠 3. Machine Learning Workflow**
 **✔ Data Cleaning**
 1.Missing value handling
