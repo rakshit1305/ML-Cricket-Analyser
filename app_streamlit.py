@@ -9,16 +9,8 @@ pipeline = joblib.load("cricket_pipeline.pkl")
 st.set_page_config(page_title="Cricket Score Predictor", page_icon="🏏")
 st.title("🏏 Cricket Score Predictor")
 # Cricket Logo (place any image URL or file path)
-st.image("https://1000logos.net/wp-content/uploads/2022/09/Cricket-League-Logo.png", width=140)
-page_bg = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("static/stadium.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-</style>
+st.image(https://www.augustman.com/hk/entertainment/travel/best-cricket-stadiums-in-the-world/.png", width=140)
+
 """
 st.markdown(page_bg, unsafe_allow_html=True)
 
