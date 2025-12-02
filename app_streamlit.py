@@ -35,6 +35,18 @@ page_bg = """
 """
 
 st.markdown(page_bg, unsafe_allow_html=True)
+# Define the team list before using it
+team_list = ["Australia","India","Pakistan","England","Sri Lanka","Bangladesh",
+             "South Africa","New Zealand","Afghanistan","West Indies"]
+
+city_list = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Bangalore", 
+             "Lahore", "Karachi", "Sydney", "Auckland", "Colombo"]
+
+# Now use in selectbox
+batting_team = st.selectbox("Batting Team", team_list)
+bowling_team = st.selectbox("Bowling Team", team_list)
+city = st.selectbox("City", city_list)
+
 # Cricket Logo (place any image URL or file path)
 st.image("https://1000logos.net/wp-content/uploads/2022/09/Cricket-League-Logo.png", width=140)
 
