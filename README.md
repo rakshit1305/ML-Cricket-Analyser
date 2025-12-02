@@ -40,7 +40,7 @@ City
 | final_score       | Target variable            |
 
 https://www.kaggle.com/veeralakrishna/cricsheet-a-retrosheet-for-cricket?select=t20s
-Link to access datasets taken for this project.
+Link to access datasets taken for this project. To open dataset, Click on the link mentioned. There we can find multiple sections of cricket matches such as ipl, bbl, ODIs,Tests, T20s etc. Among these, click on T20s to see the project dataset.
 
 **🧠 3. Machine Learning Workflow**
 **✔ Data Cleaning**
