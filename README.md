@@ -84,5 +84,54 @@ StandardScaler → scale numeric features
 OneHotEncoder → convert teams/city to vectors
 VotingRegressor → final model
 
+**💻 6. How to Run the Code**
+
+1. Clone the repository:
+git clone <repository-link>
+cd ML_project
+
+
+2. Install dependencies:
+pip install -r requirements.txt
+
+
+3. Run the Jupyter Notebook to retrain/test the model:
+jupyter notebook ML.ipynb
+
+
+4. To launch the Streamlit web app:
+streamlit run app.py
+
+
+5.Open the displayed localhost URL in a browser to use the score predictor.
+
+
+**📦 7. Dependencies**
+
+Python ≥ 3.8, 
+pandas, 
+numpy, 
+scikit-learn, 
+xgboost, 
+streamlit, 
+joblib (for saving/loading pipeline)
+
+
+**📈 8. Expected Outputs**
+
+1. Jupyter Notebook:
+Data preprocessing results
+Model training and evaluation metrics (MAE, RMSE, R²)
+Comparison of multiple models
+
+2. Streamlit App:
+User inputs match conditions: batting team, bowling team, current score, balls bowled, wickets left, last 3 overs runs, crr, city
+Displays predicted final score instantly
+
+3. Model Performance (Voting Regressor):
+MAE (Test): 1.6967
+R² (Test): 0.9854
+RMSE: 4.81
+
 
 
