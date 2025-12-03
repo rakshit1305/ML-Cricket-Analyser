@@ -27,7 +27,7 @@ X_new = pd.DataFrame([{
     'balls_bowled': balls_bowled,
     'wickets_left': wickets_left,
     'runs_last_3_overs': runs_last_3_overs,
-    'crrr': crrr   # Matches pipeline column
+    'crr': crr   # Matches pipeline column
 }])
 
 # -------------------
