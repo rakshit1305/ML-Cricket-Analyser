@@ -59,17 +59,19 @@ Link to access datasets taken for this project. To open dataset, Click on the li
 | Model                | Status            |
 | -------------------- | ----------------- |
 | Linear Regression    | ❌ High error      |
-| Decision Tree        | ❌ Overfitting     |
+| Decision Tree        |  ✔ Good        |
 | Random Forest        | ✔ Good            |
-| AdaBoost             | ✔ Moderate        |
-| XGBoost              | ✔ Strong          |
+| AdaBoost             | ✔ Strong       |
+| XGBoost              |  ❌Weak   
+|Ridge/Lasso               ❌ High error      
+KnearestNeighbours         ❌ High variance    
 | **Voting Regressor** | **⭐⭐ Best Model** |
 
 
 **🏆 4. Best Model: VOTING REGRESSOR**
 
-The final model is an ensemble of three strong regressors:
-**RandomForest + AdaBoost + XGBoost**
+The final model is an ensemble of two strong regressors:
+decision tree+ AdaBoost 
 
 
 📌 Voting Regressor gave the lowest error and best generalization, making it the final choice.
@@ -79,9 +81,8 @@ The final model is an ensemble of three strong regressors:
 
 The final pipeline includes:
 
-SimpleImputer → handle missing numeric values
 StandardScaler → scale numeric features
-OneHotEncoder → convert teams/city to vectors
+OrdinalEncoder → convert teams/city to vectors
 VotingRegressor → final model
 
 **💻 6. How to Run the Code**
@@ -100,7 +101,7 @@ jupyter notebook ML.ipynb
 
 
 4. To launch the Streamlit web app:
-streamlit run app.py
+streamlit run streamlit_final_bits.py
 
 
 5.Open the displayed localhost URL in a browser to use the score predictor.
@@ -129,9 +130,14 @@ User inputs match conditions: batting team, bowling team, current score, balls b
 Displays predicted final score instantly
 
 3. Model Performance (Voting Regressor):
-MAE (Test): 1.6967
-R² (Test): 0.9854
-RMSE: 4.81
+   Model used in voting regressor -DecisionTreeRegressor and ADABoost regressor
+MAE(test): 4.683177874327976
+R² (Test): 0.9560710665919709
+RMSE 8.348266971477013
+Standard error of estimate : 8.360672559554418
+Model is balanced
+MAE(train): 4.229465465629779
+ MAE(test): 4.683177874327976
 
 
 
