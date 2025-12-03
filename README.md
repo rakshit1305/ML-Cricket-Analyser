@@ -5,9 +5,9 @@ It is built using Python, Scikit-Learn, XGBoost, and Streamlit for deployment.
 
 📁**Project Structure**
 ML_project/
-│── ML.ipynb                # Jupyter Notebook with all training code
-│── cricket_pipeline.pkl    # Saved final ML pipeline
-│── app.py                  # Streamlit web application
+│── Final bits ml project.ipynb                # Jupyter Notebook with all training code
+│── cricket_pipeline_bits.pkl    # Saved final ML pipeline
+│── streamlit_final_bits.py                  # Streamlit web application
 │── README.md               # Project documentation
 │── data/                   # Dataset (CSV)
 
